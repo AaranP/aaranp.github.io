@@ -4,8 +4,8 @@
 # `visibility: private` entry string appears in dist/.
 #
 # One-time repo setup: Settings → Pages → Source: "GitHub Actions".
-# `site`/`base` in site/astro.config.mjs assume the repo is named
-# "portfoliosite" — update both if the repo name differs.
+# The repository is named "aaranp.github.io", so Astro builds for the
+# account root instead of a project subpath.
 name: Deploy to GitHub Pages
 
 on:
