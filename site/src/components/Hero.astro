@@ -2,7 +2,7 @@
 import { Picture } from "astro:assets";
 import { aboutEntry } from "../lib/data";
 import ContactEmail from "./ContactEmail.astro";
-import Usagi from "./Usagi.astro";
+import GlassPane from "./GlassPane.astro";
 import photo from "../../../profile/photo.png";
 
 const about = await aboutEntry();
@@ -40,7 +40,7 @@ const { name, headline, intro, location, links } = about.data;
       <a href={links.linkedin}>LinkedIn ↗</a>
     </div>
   </div>
-  <Usagi />
+  <GlassPane />
 </section>
 
 <style>
@@ -135,11 +135,11 @@ const { name, headline, intro, location, links } = about.data;
       grid-template-columns: minmax(185px, 0.8fr) minmax(310px, 1.3fr);
       min-height: 0;
     }
-    .hero :global(.usagi-shell) {
+    .hero :global(.glass-shell) {
       grid-column: 1 / -1;
       justify-self: center;
       width: min(100%, 420px);
-      height: 340px;
+      height: 280px;
     }
   }
   @media (max-width: 700px) {
@@ -162,10 +162,10 @@ const { name, headline, intro, location, links } = about.data;
     .social {
       justify-content: center;
     }
-    .hero :global(.usagi-shell) {
+    .hero :global(.glass-shell) {
       grid-column: auto;
       width: min(100%, 360px);
-      height: 320px;
+      height: 280px;
     }
   }
 </style>
