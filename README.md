@@ -40,3 +40,11 @@ gaps are marked inline with `TODO`. Find them all with:
 ```sh
 grep -rn TODO projects/ experience/ profile/
 ```
+
+## Web analytics
+
+The Astro site loads Cloudflare Web Analytics in production when a site token
+is configured. Set the repository Actions variable
+`CLOUDFLARE_WEB_ANALYTICS_TOKEN` to the token from Cloudflare's JavaScript
+snippet. The GitHub Pages workflow passes it to the build; local development
+does not send analytics.
