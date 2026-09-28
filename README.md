@@ -1,5 +1,7 @@
 # Portfolio Data
 
+Live site: https://aaranp.github.io/
+
 Single source of truth for all of Aaran Poon's experience, projects, and
 skills. The portfolio website (and resume tailoring) are generated **from**
 this data — never edit the website directly without updating this first.
