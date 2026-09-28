@@ -85,6 +85,7 @@ const experience = defineCollection({
 const aboutSchema = z.object({
   name: z.string(),
   headline: z.string(),
+  intro: z.string(),
   location: z.string(),
   citizenship: z.string().optional(),
   links: z.object({
