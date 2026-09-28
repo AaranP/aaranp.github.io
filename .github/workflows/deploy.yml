@@ -30,6 +30,8 @@ jobs:
       - uses: withastro/action@v3
         with:
           path: ./site
+        env:
+          PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ vars.CLOUDFLARE_WEB_ANALYTICS_TOKEN }}
       - name: Privacy check (no private entries in dist)
         run: node site/scripts/privacy-check.mjs
       # Lighthouse CI could run here as a non-blocking report step later
