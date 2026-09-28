@@ -1,13 +1,12 @@
 ---
-import { render } from 'astro:content';
-import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import ProjectsSection from '../components/ProjectsSection.astro';
-import Timeline from '../components/Timeline.astro';
-import Skills from '../components/Skills.astro';
-import { aboutEntry, featuredProjects } from '../lib/data';
-
+import { render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import Timeline from "../components/Timeline.astro";
+import Skills from "../components/Skills.astro";
+import { aboutEntry, featuredProjects } from "../lib/data";
 const about = await aboutEntry();
 const { Content: Bio } = await render(about);
 const featured = await featuredProjects();
@@ -16,49 +15,143 @@ const title = `${about.data.name} — ${about.data.headline}`;
 
 <Base title={title} description={about.data.headline}>
   <Hero />
-
-  <section class="container about" id="about" aria-labelledby="about-heading">
-    <h2 id="about-heading">About</h2>
-    <Bio />
-  </section>
-
-  <section class="container" id="experience" aria-labelledby="experience-heading">
-    <h2 id="experience-heading">Experience</h2>
+  <section
+    class="container"
+    data-reveal
+    id="experience"
+    aria-labelledby="experience-heading"
+  >
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">01 / Where I've worked</span>
+        <h2 id="experience-heading">Experience</h2>
+      </div>
+      <p>
+        Experience in silicon validation, photonics simulation software, and
+        marine electrical systems.
+      </p>
+    </div>
     <Timeline />
   </section>
-
-  <section class="container" aria-labelledby="featured-heading">
-    <h2 id="featured-heading">Featured projects</h2>
+  <section class="container" data-reveal aria-labelledby="featured-heading">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">02 / Selected work</span>
+        <h2 id="featured-heading">Featured projects</h2>
+      </div>
+      <p>
+        A selection of hardware, embedded, and software work. Each project
+        includes the details behind the result.
+      </p>
+    </div>
     <div class="featured-grid">
-      {featured.map((p) => <ProjectCard project={p} />)}
+      {featured.map((p) => (
+        <ProjectCard project={p} />
+      ))}
     </div>
   </section>
-
-  <section class="container" id="projects" aria-labelledby="projects-heading">
-    <h2 id="projects-heading">All projects</h2>
+  <section
+    class="container all-projects"
+    data-reveal
+    id="projects"
+    aria-labelledby="projects-heading"
+  >
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">03 / Explore the work</span>
+        <h2 id="projects-heading">All projects</h2>
+      </div>
+      <p>
+        Browse by area or open a project to see the design and implementation.
+      </p>
+    </div>
     <ProjectsSection />
   </section>
-
-  <section class="container" id="skills" aria-labelledby="skills-heading">
-    <h2 id="skills-heading">Skills</h2>
+  <section
+    class="container"
+    data-reveal
+    id="skills"
+    aria-labelledby="skills-heading"
+  >
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">04 / Toolkit</span>
+        <h2 id="skills-heading">Skills & tools</h2>
+      </div>
+    </div>
     <Skills />
   </section>
+  <section
+    class="about-wrap"
+    data-reveal
+    id="about"
+    aria-labelledby="about-heading"
+  >
+    <div class="container about-grid">
+      <div>
+        <span class="eyebrow">05 / A little more</span>
+        <h2 id="about-heading">About me</h2>
+      </div>
+      <div class="about-copy">
+        <Bio />
+      </div>
+    </div>
+  </section>
+  <script>
+    if (
+      "IntersectionObserver" in window &&
+      !matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      const sections = [
+        ...document.querySelectorAll<HTMLElement>("[data-reveal]"),
+      ];
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        },
+        { rootMargin: "0px 0px -40px 0px" },
+      );
+      sections.forEach((section) => observer.observe(section));
+      document.documentElement.classList.add("reveal-ready");
+    }
+  </script>
 </Base>
-
 <style>
   .featured-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.3rem;
   }
-
-  @media (min-width: 640px) {
-    .featured-grid {
-      grid-template-columns: repeat(2, 1fr);
+  .all-projects {
+    border-top: 1px solid var(--border);
+  }
+  .about-wrap {
+    background: #eeeee8;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr;
+    gap: 4rem;
+  }
+  .about-copy {
+    font-size: 1.17rem;
+    line-height: 1.8;
+    max-width: 44rem;
+  }
+  .about-copy :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  @media (max-width: 700px) {
+    .featured-grid,
+    .about-grid {
+      grid-template-columns: 1fr;
     }
-  }
-
-  .about {
-    max-width: 760px;
+    .about-grid {
+      gap: 1rem;
+    }
   }
 </style>

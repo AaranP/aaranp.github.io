@@ -1,123 +1,112 @@
-/* Design tokens — SITE_SPEC.md §6, verbatim. Light is default; dark via
-   [data-theme="dark"]. Accent discipline: accent only on links, active
-   filter chips, timeline dots, and primary buttons. */
 :root {
-  --bg: #F6F1E7;            /* beige white (user preference, overrides spec's #FAFAF8) */
-  --text: #1A1A1A;
-  --text-muted: #5A5A55;
-  --accent: #1E5AA8;        /* the ONE accent: links, chips, timeline dots */
-  --accent-soft: #E8EFF8;   /* chip/tag backgrounds */
-  --surface: #FFFFFF;       /* cards */
-  --border: #E3DCCB;        /* warmed to sit on the beige bg */
-
-  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Space Grotesk', var(--font-body);
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
-
-  /* 1.25 modular scale off 1rem body */
+  --bg: #f8f7f3;
+  --surface: #fff;
+  --text: #20211f;
+  --text-muted: #62645f;
+  --border: #e6e5df;
+  --accent: #20211f;
+  --accent-soft: #f0f0ec;
+  --font-body:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-body);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --step-0: 1rem;
   --step-1: 1.25rem;
-  --step-2: 1.563rem;
-  --step-3: 1.953rem;
-  --step-4: 2.441rem;
+  --step-2: 1.65rem;
+  --step-3: clamp(2rem, 3vw, 2.9rem);
+  --step-4: clamp(3rem, 5.3vw, 5.5rem);
 }
-
-[data-theme="dark"] {
-  --bg: #121417;            /* dark grey, never pure black */
-  --text: #E6E6E6;
-  --text-muted: #9AA0A6;
-  --accent: #F5A623;        /* warm amber accent in dark mode */
-  --accent-soft: #2A2418;
-  --surface: #1A1D21;
-  --border: #2A2E33;
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-
 html {
   scroll-behavior: smooth;
-  /* sticky nav height so anchor targets aren't hidden behind it */
-  scroll-padding-top: 4rem;
+  scroll-padding-top: 8rem;
 }
-
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
-  transition: background-color 200ms ease, color 200ms ease; /* theme fade */
+  font: 16px/1.65 var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
-
-@media (min-width: 960px) {
-  body {
-    font-size: 17px;
-  }
-}
-
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-display);
-  line-height: 1.2;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
   margin: 0 0 0.5em;
+  font-weight: 650;
 }
-
-h1 { font-size: var(--step-4); }
-h2 { font-size: var(--step-3); }
-h3 { font-size: var(--step-1); }
-
+h1 {
+  font-size: var(--step-4);
+}
+h2 {
+  font-size: var(--step-3);
+}
+h3 {
+  font-size: var(--step-1);
+}
 p {
   margin: 0 0 1em;
 }
-
 a {
-  color: var(--accent);
-  text-underline-offset: 0.15em;
+  color: inherit;
+  text-underline-offset: 0.18em;
 }
-
 a:hover {
   text-decoration-thickness: 2px;
 }
-
 img {
   max-width: 100%;
   height: auto;
 }
-
-/* visible keyboard focus everywhere (quality floor §8) */
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 2px;
+  outline: 2px solid #4c5f6c;
+  outline-offset: 3px;
+  border-radius: 3px;
 }
-
 .container {
-  max-width: 1000px;
+  width: min(100% - 3rem, 1180px);
   margin-inline: auto;
-  padding-inline: 1.25rem;
 }
-
 section {
-  padding-block: 3rem;
+  padding-block: 5rem;
 }
-
-/* tech/domain tags: --accent-soft bg + muted text, mono face — no rainbow */
+.eyebrow {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.2rem;
+}
+.section-heading p {
+  max-width: 31rem;
+  color: var(--text-muted);
+  margin: 0;
+}
 .tag {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   background: var(--accent-soft);
-  color: var(--text-muted);
-  border-radius: 4px;
-  padding: 0.15rem 0.5rem;
-  white-space: nowrap;
+  color: #555852;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  white-space: normal;
+  line-height: 1.35;
 }
-
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -126,36 +115,75 @@ section {
   margin: 0;
   padding: 0;
 }
-
 .muted {
   color: var(--text-muted);
 }
-
 .mono {
   font-family: var(--font-mono);
 }
-
-/* cards */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
-
-/* whole-card link (tap-target rule §5.2) */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px #24231e12;
+}
 .card-link {
   color: inherit;
   text-decoration: none;
   display: block;
   height: 100%;
 }
-
 .card-link:hover h3,
 .card-link:focus-visible h3 {
-  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
-
+.button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.7rem 1.3rem;
+  text-decoration: none;
+  font-weight: 600;
+  background: var(--text);
+  color: #fff;
+  border: 1px solid var(--text);
+  line-height: 1.2;
+}
+.button:hover {
+  background: #454740;
+}
+.button.secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: #b9bcb5;
+}
+.button.secondary:hover {
+  background: #efefea;
+}
+@media (max-width: 640px) {
+  .container {
+    width: min(100% - 2rem, 1180px);
+  }
+  section {
+    padding-block: 3.5rem;
+  }
+  .section-heading {
+    display: block;
+  }
+  .section-heading p {
+    margin-top: 1rem;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -163,7 +191,26 @@ section {
   *,
   *::before,
   *::after {
-    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Reveal only after JavaScript marks the page ready; static pages stay visible. */
+html.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s ease;
+}
+html.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

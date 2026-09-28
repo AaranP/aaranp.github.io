@@ -1,12 +1,12 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import { domainGroups, dateRange } from '../lib/data';
-import { thumbnail } from '../lib/media';
-import { url } from '../lib/url';
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { domainGroups, dateRange } from "../lib/data";
+import { thumbnail } from "../lib/media";
+import { url } from "../lib/url";
 
 interface Props {
-  project: CollectionEntry<'projects'>;
+  project: CollectionEntry<"projects">;
   /** eager-load the thumbnail (above-the-fold featured cards) */
   eager?: boolean;
 }
@@ -19,39 +19,45 @@ const techShown = data.tech.slice(0, 5);
 const techMore = data.tech.length - techShown.length;
 ---
 
-<article class="card" data-groups={groups.map((g) => g.slug).join(' ')}>
+<article class="card" data-groups={groups.map((g) => g.slug).join(" ")}>
   <a class="card-link" href={url(`/projects/${project.id}/`)}>
-    {
-      thumb && thumb.image.format !== 'gif' && (
-        <Image
-          src={thumb.image}
-          alt={thumb.caption || data.name}
-          width={640}
-          widths={[480, 640, 960]}
-          sizes="(max-width: 639px) 92vw, 460px"
-          loading={eager ? 'eager' : 'lazy'}
-          class="thumb"
-        />
-      )
-    }
-    {
-      thumb && thumb.image.format === 'gif' && (
-        <img
-          src={thumb.image.src}
-          alt={thumb.caption || data.name}
-          width={thumb.image.width}
-          height={thumb.image.height}
-          loading={eager ? 'eager' : 'lazy'}
-          class="thumb"
-        />
-      )
-    }
+    {thumb && thumb.image.format !== "gif" && (
+      <Image
+        src={thumb.image}
+        alt={thumb.caption || data.name}
+        width={640}
+        widths={[480, 640, 960]}
+        sizes="(max-width: 639px) 92vw, 460px"
+        loading={eager ? "eager" : "lazy"}
+        class="thumb"
+      />
+    )}
+    {thumb && thumb.image.format === "gif" && (
+      <img
+        src={thumb.image.src}
+        alt={thumb.caption || data.name}
+        width={thumb.image.width}
+        height={thumb.image.height}
+        loading={eager ? "eager" : "lazy"}
+        class="thumb"
+      />
+    )}
+    {!thumb && (
+      <div class="thumb-fallback" aria-hidden="true">
+        <span>{data.name.slice(0, 1)}</span>
+      </div>
+    )}
     <div class="body">
-      <h3>{data.name}</h3>
+      <div class="card-top">
+        <h3>{data.name}</h3>
+        <span aria-hidden="true">↗</span>
+      </div>
       <p class="muted dates">{dateRange(data.start, data.end)}</p>
       <p class="summary">{data.summary}</p>
       <ul class="tag-list" aria-label="Technologies">
-        {techShown.map((t) => <li class="tag">{t}</li>)}
+        {techShown.map((t) => (
+          <li class="tag">{t}</li>
+        ))}
         {techMore > 0 && <li class="tag">+{techMore}</li>}
       </ul>
     </div>
@@ -59,29 +65,54 @@ const techMore = data.tech.length - techShown.length;
 </article>
 
 <style>
-  .thumb {
+  .thumb,
+  .thumb-fallback {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
     object-fit: cover;
     display: block;
     border-bottom: 1px solid var(--border);
   }
-
+  .thumb-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #dee2dc, #f0f0eb 55%, #cfd8d8);
+  }
+  .thumb-fallback span {
+    font-size: clamp(5rem, 12vw, 9rem);
+    line-height: 1;
+    font-weight: 650;
+    letter-spacing: -0.1em;
+    color: #f8f8f3b8;
+  }
   .body {
-    padding: 1rem 1.1rem 1.1rem;
+    padding: 1.35rem 1.5rem 1.55rem;
   }
-
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+  }
+  .card-top > span {
+    font-size: 1.25rem;
+    color: #777c74;
+  }
   h3 {
-    margin-bottom: 0.2em;
+    font-size: 1.35rem;
+    margin-bottom: 0.3rem;
   }
-
   .dates {
-    font-size: 0.85rem;
-    margin-bottom: 0.5em;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
   }
-
   .summary {
-    font-size: 0.95rem;
-    margin-bottom: 0.75em;
+    color: #555852;
+    font-size: 0.94rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
   }
 </style>

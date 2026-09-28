@@ -5,27 +5,7 @@ interface Props {
 }
 
 const { email, label = 'Email' } = Astro.props;
-const [user, domain] = email.split('@');
-if (!user || !domain) throw new Error('Expected a valid email address');
+if (!email.includes('@')) throw new Error('Expected a valid email address');
 ---
 
-<a
-  href="#"
-  data-email-user={user}
-  data-email-domain={domain}
-  aria-label={label}
->{label}</a>
-
-<script>
-  document.addEventListener('click', (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLAnchorElement)) return;
-
-    const user = target.dataset.emailUser;
-    const domain = target.dataset.emailDomain;
-    if (!user || !domain) return;
-
-    event.preventDefault();
-    window.location.href = `mailto:${user}@${domain}`;
-  });
-</script>
+<a href={`mailto:${email}`} aria-label={label}>{label}</a>

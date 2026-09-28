@@ -45,8 +45,8 @@ grep -rn TODO projects/ experience/ profile/
 
 ## Web analytics
 
-The Astro site loads Cloudflare Web Analytics in production when a site token
-is configured. Set the repository Actions variable
-`CLOUDFLARE_WEB_ANALYTICS_TOKEN` to the token from Cloudflare's JavaScript
-snippet. The GitHub Pages workflow passes it to the build; local development
-does not send analytics.
+The Astro site uses Cloudflare Web Analytics on production builds when a site
+token is configured. Add `aaranp.github.io` in Cloudflare Web Analytics, then
+set the repository Actions variable `CLOUDFLARE_WEB_ANALYTICS_TOKEN` to the
+token from its JavaScript snippet. The GitHub Pages workflow passes it to the
+build; local development does not send analytics.

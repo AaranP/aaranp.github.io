@@ -1,33 +1,45 @@
 ---
-import { publicExperience, dateRange, noTodo } from '../lib/data';
+import { publicExperience, dateRange, noTodo } from "../lib/data";
+import { url } from "../lib/url";
 
+const logos: Record<string, { src: string; style: string; width: number; height: number }> = {
+  Synopsys: { src: url("/logos/synopsys.svg"), style: "synopsys", width: 400, height: 225 },
+  AMD: { src: url("/logos/amd.svg"), style: "amd", width: 140, height: 33 },
+  "CANAL Marine Industries": { src: url("/logos/canal.png"), style: "canal", width: 1501, height: 246 },
+  "University of British Columbia": { src: url("/logos/ubc.jpg"), style: "ubc", width: 99, height: 135 },
+};
 const experience = await publicExperience();
-
-// 2–3 bullets per role: grounded achievements first, resume bullets as
-// fallback; TODO-bearing strings never render
-const items = experience.map((e) => {
-  const achievements = e.data.achievements.map((a) => noTodo(a.text)).filter(Boolean);
-  const bullets = (achievements.length ? achievements : e.data.resume_bullets.map(noTodo))
-    .filter(Boolean)
-    .slice(0, 3);
-  return { ...e.data, bullets, range: dateRange(e.data.start, e.data.end) };
-});
+const items = experience
+  .map((e) => {
+    const achievements = e.data.achievements
+      .map((a) => noTodo(a.text))
+      .filter(Boolean);
+    const bullets = (
+      achievements.length ? achievements : e.data.resume_bullets.map(noTodo)
+    )
+      .filter(Boolean)
+      .slice(0, 3);
+    return {
+      ...e.data,
+      bullets,
+      range: dateRange(e.data.start, e.data.end),
+      logo: logos[e.data.company],
+    };
+  })
+  .filter((e) => e.company && e.title);
 ---
 
-{/* single-line-diagram motif: one vertical bus, a square tap per role */}
 <ol class="timeline">
-  {
-    items.map((item) => (
-      <li>
-        <div class="tap" aria-hidden="true" />
+  {items.map((item) => (
+    <li>
+      <div class="tap" aria-hidden="true"></div>
+      <p class="date">{item.range}</p>
+      <div class="role">
         <h3>
-          {item.title} <span class="company">· {item.company}</span>
+          {item.title}
+          <span class="company"> · {item.company}</span>
         </h3>
-        <p class="muted meta mono">
-          {item.range}
-          {item.range && ' · '}
-          {item.location}
-        </p>
+        <p class="muted meta">{item.location}</p>
         {item.bullets.length > 0 && (
           <ul class="bullets">
             {item.bullets.map((b) => (
@@ -42,70 +54,122 @@ const items = experience.map((e) => {
             ))}
           </ul>
         )}
-      </li>
-    ))
-  }
+      </div>
+      {item.logo && (
+        <div class={`logo-tile logo-${item.logo.style}`} aria-hidden="true">
+          <img
+            src={item.logo.src}
+            alt=""
+            width={item.logo.width}
+            height={item.logo.height}
+            loading="lazy"
+          />
+        </div>
+      )}
+    </li>
+  ))}
 </ol>
-
 <style>
   .timeline {
     list-style: none;
     margin: 0;
     padding: 0;
+    border-top: 1px solid var(--border);
+  }
+  .timeline > li {
+    display: grid;
+    grid-template-columns: 13px minmax(100px, 0.5fr) minmax(0, 2fr) 170px;
+    gap: 1.25rem;
     position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
   }
-
-  /* the bus */
-  .timeline::before {
-    content: '';
-    position: absolute;
-    top: 0.4rem;
-    bottom: 0.4rem;
-    left: 5px;
-    width: 2px;
-    background: var(--accent);
-  }
-
-  .timeline li {
-    position: relative;
-    padding-left: 2rem;
-    padding-bottom: 2.25rem;
-  }
-
-  .timeline li:last-child {
-    padding-bottom: 0;
-  }
-
-  /* the square bus tap */
   .tap {
-    position: absolute;
-    left: 0;
-    top: 0.4rem;
-    width: 12px;
-    height: 12px;
-    background: var(--accent);
+    width: 7px;
+    height: 7px;
+    background: #9aa296;
+    border-radius: 50%;
+    margin-top: 0.68rem;
   }
-
+  .date {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 0.35rem 0;
+  }
+  .role {
+    max-width: 48rem;
+  }
+  .logo-tile {
+    align-self: start;
+    display: grid;
+    place-items: center;
+    width: 170px;
+    height: 100px;
+    padding: 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .logo-tile img {
+    display: block;
+    width: 100%;
+    max-height: 62px;
+    object-fit: contain;
+  }
+  .logo-synopsys { background: #f4f1f8; padding: 0.2rem; }
+  .logo-synopsys img { max-height: 92px; }
+  .logo-amd { background: #202327; border-color: #202327; }
+  .logo-canal { background: #f5f9fa; }
+  .logo-ubc img { width: auto; max-width: 48px; max-height: 64px; }
   h3 {
-    margin-bottom: 0.15em;
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    margin-bottom: 0.3rem;
   }
-
   .company {
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 450;
   }
-
   .meta {
-    font-size: 0.82rem;
-    margin-bottom: 0.6em;
+    font-size: 0.83rem;
+    margin-bottom: 0.7rem;
   }
-
   .bullets {
-    margin: 0 0 0.75em;
-    padding-left: 1.2rem;
+    margin: 0.55rem 0 1rem;
+    padding-left: 1.15rem;
+    color: #51534e;
   }
-
   .bullets li {
-    margin-bottom: 0.35em;
+    margin-bottom: 0.38rem;
+  }
+  @media (max-width: 850px) {
+    .timeline > li {
+      grid-template-columns: 9px 1fr;
+      gap: 0.3rem 0.9rem;
+    }
+    .date {
+      grid-column: 2;
+      margin: 0;
+    }
+    .role {
+      grid-column: 2;
+      grid-row: 3;
+    }
+    .logo-tile {
+      grid-column: 2;
+      grid-row: 2;
+      width: 150px;
+      height: 72px;
+      padding: 0.8rem;
+      margin-block: 0.45rem;
+    }
+    .logo-tile img { max-height: 44px; }
+    .logo-synopsys { padding: 0.2rem; }
+    .logo-synopsys img { max-height: 64px; }
+    .logo-ubc img { max-height: 44px; }
+    .company {
+      display: block;
+      margin-top: 0.25rem;
+    }
   }
 </style>

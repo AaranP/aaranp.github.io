@@ -1,112 +1,110 @@
 ---
-import { url } from '../lib/url';
-
-// slim sticky bar, 4 anchor links — fits mobile without a hamburger (§5)
+import { url } from "../lib/url";
 const links = [
-  { href: url('/#experience'), label: 'Experience' },
-  { href: url('/#projects'), label: 'Projects' },
-  { href: url('/#skills'), label: 'Skills' },
-  { href: url('/#contact'), label: 'Contact' },
+  { href: url("/#experience"), label: "Experience" },
+  { href: url("/#projects"), label: "Projects" },
+  { href: url("/#skills"), label: "Skills" },
+  { href: url("/#about"), label: "About" },
 ];
 ---
 
 <header class="nav-bar">
   <nav class="container" aria-label="Main">
-    <a class="home mono" href={url('/')}>AP</a>
+    <a class="home" href={url("/")} aria-label="Aaran Poon home">
+      Aaran Poon<span class="home-dot">.</span>
+    </a>
     <ul>
       {links.map((l) => (
-        <li><a href={l.href}>{l.label}</a></li>
+        <li>
+          <a href={l.href}>{l.label}</a>
+        </li>
       ))}
     </ul>
-    <button id="theme-toggle" type="button" aria-label="Toggle dark mode">
-      <span class="icon-light" aria-hidden="true">●</span>
-      <span class="icon-dark" aria-hidden="true">○</span>
-    </button>
+    <a
+      class="contact-link"
+      href={url("/Aaran_Poon_resume_D.pdf")}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open Aaran Poon résumé PDF in a new tab"
+    >
+      Resume <span aria-hidden="true">↗</span>
+    </a>
   </nav>
 </header>
-
-<script>
-  const toggle = document.getElementById('theme-toggle');
-  toggle?.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('theme', next);
-  });
-</script>
-
 <style>
   .nav-bar {
     position: sticky;
     top: 0;
-    z-index: 10;
-    background: var(--bg);
+    z-index: 20;
+    background: #f8f7f3eb;
     border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(18px);
   }
-
   nav {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    min-height: 3.25rem;
+    gap: 2rem;
+    min-height: 74px;
   }
-
   .home {
-    font-weight: 700;
+    font-size: 1.06rem;
+    font-weight: 750;
+    letter-spacing: -0.05em;
     text-decoration: none;
-    /* 44px tap target */
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding-inline: 0.25rem;
+    white-space: nowrap;
   }
-
+  .home-dot {
+    color: #8d967f;
+  }
   ul {
     display: flex;
-    gap: 0.25rem;
+    gap: clamp(0.4rem, 2vw, 2rem);
     list-style: none;
-    margin: 0 0 0 auto;
+    margin: 0 auto;
     padding: 0;
   }
-
-  ul a {
-    color: var(--text);
-    text-decoration: none;
+  li a,
+  .contact-link {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding-inline: 0.6rem;
-    font-size: 0.95rem;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 550;
+    white-space: nowrap;
   }
-
-  ul a:hover {
-    color: var(--accent);
+  li a:hover,
+  .contact-link:hover {
+    text-decoration: underline;
   }
-
-  button {
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    border-radius: 6px;
-    min-width: 44px;
-    min-height: 44px;
-    cursor: pointer;
-    font-size: 1rem;
+  .contact-link {
+    border: 1px solid #c9cbc3;
+    border-radius: 999px;
+    padding: 0 1rem;
+    gap: 0.5rem;
   }
-
-  /* show the symbol for the theme you'd switch TO */
-  .icon-dark,
-  :global([data-theme='dark']) .icon-light {
-    display: none;
-  }
-
-  :global([data-theme='dark']) .icon-dark {
-    display: inline;
-  }
-
-  @media (max-width: 400px) {
-    ul a {
-      padding-inline: 0.4rem;
-      font-size: 0.88rem;
+  @media (max-width: 700px) {
+    nav {
+      min-height: 64px;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      padding-block: 0.35rem;
+    }
+    ul {
+      order: 3;
+      width: 100%;
+      justify-content: space-between;
+      gap: 0.15rem;
+    }
+    li a {
+      font-size: 0.75rem;
+      padding: 0.15rem;
+    }
+    .contact-link {
+      margin-left: auto;
+      font-size: 0.75rem;
+      min-height: 44px;
+      padding: 0 0.7rem;
     }
   }
 </style>

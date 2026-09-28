@@ -1,12 +1,8 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource/space-grotesk/500.css';
-import '@fontsource/space-grotesk/700.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '../styles/global.css';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import { url } from '../lib/url';
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { url } from "../lib/url";
 
 interface Props {
   title: string;
@@ -14,7 +10,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const ogImage = new URL(url('og.png'), Astro.site);
+const ogImage = new URL(url("og.png"), Astro.site);
 const analyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
 ---
 
@@ -30,19 +26,9 @@ const analyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.tr
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta name="generator" content={Astro.generator} />
-    <script is:inline>
-      // set theme before first paint to avoid a flash of the wrong theme;
-      // respects prefers-color-scheme on first visit, persists the choice
-      (() => {
-        const stored = localStorage.getItem('theme');
-        const theme =
-          stored ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.dataset.theme = theme;
-      })();
-    </script>
   </head>
   <body>
     <Nav />

@@ -1,6 +1,7 @@
 ---
 name: Aaran Poon
-headline: Electrical EIT — ASIC Verification & Power Systems   # site hero headline per SITE_SPEC.md §5.1
+headline: R&D Verification Engineer at Synopsys · Electrical EIT
+intro: I work across digital verification and power systems, with experience at Synopsys, AMD, and CANAL Marine.
 location: Vancouver, BC
 citizenship: Canadian Citizen
 links:

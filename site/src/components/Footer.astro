@@ -1,48 +1,109 @@
 ---
-import { aboutEntry } from '../lib/data';
-import ContactEmail from './ContactEmail.astro';
-
+import { aboutEntry } from "../lib/data";
+import { url } from "../lib/url";
+import ContactEmail from "./ContactEmail.astro";
 const about = await aboutEntry();
 const { links } = about.data;
 ---
 
 <footer id="contact">
   <div class="container">
+    <div class="footer-top">
+      <div>
+        <span class="eyebrow">Let's connect</span>
+        <h2>Have something in mind?</h2>
+        <p>I'm always interested in thoughtful engineering conversations.</p>
+      </div>
+      <ContactEmail email={links.email} label="Start a conversation ↗" />
+    </div>
     <ul class="contact">
-      <li><a href={links.github}>GitHub</a></li>
-      <li><a href={links.linkedin}>LinkedIn</a></li>
-      <li><ContactEmail email={links.email} label="Email" /></li>
+      <li>
+        <a href={links.github}>GitHub ↗</a>
+      </li>
+      <li>
+        <a href={links.linkedin}>LinkedIn ↗</a>
+      </li>
+      <li>
+        <ContactEmail email={links.email} label="Email ↗" />
+      </li>
+      <li>
+        <a
+          href={url("/Aaran_Poon_resume_D.pdf")}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Aaran Poon résumé PDF in a new tab"
+        >Resume ↗</a>
+      </li>
     </ul>
     <p class="muted">
-      © {new Date().getFullYear()} {about.data.name} · Built with
+      © {new Date().getFullYear()} {about.data.name} · Built with{" "}
       <a href="https://astro.build">Astro</a>
     </p>
   </div>
 </footer>
-
 <style>
   footer {
-    border-top: 1px solid var(--border);
-    padding-block: 2rem;
-    font-size: 0.95rem;
+    padding-block: 4rem 2rem;
+    background: #22241f;
+    color: #f7f7f3;
   }
-
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 2rem;
+    padding-bottom: 4rem;
+  }
+  .footer-top h2 {
+    max-width: 27rem;
+  }
+  .footer-top p {
+    color: #b9bcb4;
+  }
+  .footer-top :global(a) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.2rem;
+    border-radius: 999px;
+    background: #f5f5ee;
+    color: #20211f;
+    text-decoration: none;
+    font-weight: 600;
+    min-height: 46px;
+    white-space: nowrap;
+  }
   .contact {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    gap: 1.5rem;
     list-style: none;
-    margin: 0 0 0.75rem;
-    padding: 0;
+    margin: 0 0 1rem;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid #55584e;
   }
-
   .contact a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+    text-decoration: none;
   }
-
-  p {
+  .contact a:hover {
+    text-decoration: underline;
+  }
+  footer .muted {
+    color: #a7aaa2;
+    font-size: 0.85rem;
+  }
+  footer p {
     margin: 0;
+  }
+  @media (max-width: 650px) {
+    .footer-top {
+      display: block;
+    }
+    .footer-top :global(a) {
+      margin-top: 1rem;
+    }
   }
 </style>
