@@ -1,123 +1,88 @@
----
-import preview from "../assets/usagi-preview.png";
----
-
-<figure class="usagi-shell" data-usagi-viewer>
-  <div class="usagi-stage" data-usagi-stage>
-    <img
-      class="usagi-preview"
-      src={preview.src}
-      width={preview.width}
-      height={preview.height}
-      alt="Usagi from Chiikawa, a cream rabbit with tall pink ears and a smiling face"
-      data-usagi-preview
-    />
-  </div>
-  <figcaption class="usagi-caption">
-    <button type="button" class="usagi-toggle" data-usagi-toggle aria-pressed="false">
-      View in 3D ↗
-    </button>
-    <span class="usagi-credit">
-      <a href="https://sketchfab.com/3d-models/usagi-chiikawa-4353fc3c1f664784bfd33608c6cff125" target="_blank" rel="noopener noreferrer">3D by znkim</a>
-      · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY</a>
-      <br />
-      <a href="https://www.meshy.ai/3d-models/Cute-Bunny-Character-v2-019474aa-1182-7537-82df-0ed77ca7b5eb" target="_blank" rel="noopener noreferrer">Preview by ChippyChappa</a>
-    </span>
-  </figcaption>
-</figure>
+<div
+  class="usagi-shell"
+  data-pixel-usagi
+  tabindex="0"
+  role="group"
+  aria-label="Pixel-style 3D Usagi. Drag or use left and right arrow keys to turn."
+>
+  <svg class="usagi-fallback" viewBox="0 0 64 84" shape-rendering="crispEdges" aria-hidden="true">
+    <g fill="#663629">
+      <path d="M22 3h4v2h2v19h-8V5h2zm17 0h4v2h2v19h-8V5h2z" />
+      <path d="M16 20h32v2h5v3h4v5h3v7h2v18h-2v6h-4v4h-6v3H14v-3H8v-4H4v-6H2V37h2v-7h3v-5h4v-3h5z" />
+      <path d="M19 62h26v3h4v9h-5v4H20v-4h-5v-9h4z" />
+      <path d="M20 75h8v5h-2v2h-7v-2h-2v-3h3zm16 0h8v2h3v3h-2v2h-7v-2h-2z" />
+    </g>
+    <g fill="#ffe8b0">
+      <path d="M22 5h4v19h-6V7h2zm17 0h4v2h2v17h-8V7h2z" />
+      <path d="M16 22h32v2h5v3h3v5h2v5h2v18h-2v6h-4v3h-6v2H16v-2h-6v-3H6v-6H4V37h2v-5h2v-5h3v-3h5z" />
+      <path d="M19 64h26v3h3v7h-5v3H21v-3h-5v-7h3z" />
+      <path d="M20 76h8v3h-2v2h-7v-2h-1v-1h2zm16 0h8v2h2v1h-1v2h-7v-2h-2z" />
+      <path d="M13 62h5v9h-3v2h-4v-3H9v-5h4zm33 0h5v3h4v5h-2v3h-4v-2h-3z" />
+    </g>
+    <g fill="#ffa898"><path d="M22 9h3v13h-4V11h1zm17 0h3v2h1v11h-4z" /><path d="M8 45h11v3h2v5H9v-2H6v-4h2zm37 0h11v2h2v4h-3v2H43v-5h2z" /></g>
+    <g fill="#5b3028">
+      <path d="M17 36h5v2h2v2h-3v-2h-4zm25 0h5v2h-4v2h-3v-2h2z" />
+      <path d="M20 42h6v2h2v7h-2v2h-6v-2h-2v-7h2zm18 0h6v2h2v7h-2v2h-6v-2h-2v-7h2z" />
+      <path d="M31 50h2v2h-2zm-4 3h2v2h2v1h2v-1h2v-2h2v4h-2v4h-6v-4h-2z" />
+      <path d="M10 47h1v4h-1zm3 0h1v4h-1zm3 0h1v4h-1zm31 0h1v4h-1zm3 0h1v4h-1zm3 0h1v4h-1z" />
+    </g>
+    <g fill="#fffaf0"><path d="M21 44h2v2h-2zm18 0h2v2h-2z" /></g>
+    <path d="M30 57h4v3h-4z" fill="#f48f89" />
+  </svg>
+  <span class="usagi-hint">Drag to turn <span aria-hidden="true">·</span> Arrow keys</span>
+</div>
 
 <script>
-  const shell = document.querySelector<HTMLElement>("[data-usagi-viewer]");
-  const stage = shell?.querySelector<HTMLElement>("[data-usagi-stage]");
-  const preview = shell?.querySelector<HTMLImageElement>("[data-usagi-preview]");
-  const toggle = shell?.querySelector<HTMLButtonElement>("[data-usagi-toggle]");
-
-  toggle?.addEventListener("click", () => {
-    if (!stage || !preview) return;
-
-    const viewer = stage.querySelector("iframe");
-    if (viewer) {
-      viewer.remove();
-      preview.hidden = false;
-      toggle.textContent = "View in 3D ↗";
-      toggle.setAttribute("aria-pressed", "false");
-      return;
-    }
-
-    const iframe = document.createElement("iframe");
-    iframe.src = "https://sketchfab.com/models/4353fc3c1f664784bfd33608c6cff125/embed?autostart=1&autospin=0&animation_autoplay=0&camera=0&dnt=1";
-    iframe.title = "Interactive 3D Usagi model by znkim";
-    iframe.allow = "fullscreen; xr-spatial-tracking";
-    iframe.allowFullscreen = true;
-    iframe.referrerPolicy = "strict-origin-when-cross-origin";
-    stage.append(iframe);
-    preview.hidden = true;
-    toggle.textContent = "Close 3D";
-    toggle.setAttribute("aria-pressed", "true");
-  });
+  const shell = document.querySelector<HTMLElement>("[data-pixel-usagi]");
+  if (shell) {
+    const mount = () => import("../lib/pixel-usagi")
+      .then(({ mountPixelUsagi }) => mountPixelUsagi(shell))
+      .catch((error) => console.warn("Pixel Usagi unavailable.", error));
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries[0]?.isIntersecting) return;
+        observer.disconnect();
+        mount();
+      }, { rootMargin: "150px" });
+      observer.observe(shell);
+    } else mount();
+  }
 </script>
 
 <style>
   .usagi-shell {
-    width: 100%;
-    height: 360px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .usagi-stage {
     position: relative;
     width: 100%;
-    flex: 1;
-    min-height: 0;
+    height: 360px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    touch-action: pan-y;
+    outline-offset: 4px;
   }
-  .usagi-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
+  .usagi-shell[data-ready] { cursor: grab; touch-action: none; }
+  .usagi-shell[data-dragging] { cursor: grabbing; }
+  .usagi-fallback {
+    width: min(84%, 250px);
+    height: calc(100% - 30px);
+    filter: drop-shadow(0 12px 10px #7a462038);
   }
-  .usagi-preview[hidden] { display: none; }
-  .usagi-stage :global(iframe) {
+  .usagi-shell[data-ready] .usagi-fallback { display: none; }
+  .usagi-shell :global(canvas) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    border: 0;
-    border-radius: 12px;
-    background: #e2ded7;
+    display: block;
+    image-rendering: pixelated;
   }
-  .usagi-caption {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    text-align: left;
-  }
-  .usagi-toggle {
-    padding: 0.46rem 0.65rem;
-    border: 1px solid currentColor;
-    border-radius: 999px;
-    background: transparent;
-    color: var(--text);
-    font: inherit;
-    font-size: 0.72rem;
-    font-weight: 650;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-  .usagi-toggle:hover,
-  .usagi-toggle:focus-visible {
-    background: var(--text);
-    color: white;
-  }
-  .usagi-credit {
+  .usagi-hint {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
     color: var(--text-muted);
-    font-size: 0.63rem;
-    line-height: 1.35;
-    white-space: nowrap;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    pointer-events: none;
   }
-  .usagi-credit a { color: inherit; }
 </style>
