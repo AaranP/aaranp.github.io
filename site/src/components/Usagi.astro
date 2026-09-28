@@ -1,0 +1,123 @@
+---
+import preview from "../assets/usagi-preview.png";
+---
+
+<figure class="usagi-shell" data-usagi-viewer>
+  <div class="usagi-stage" data-usagi-stage>
+    <img
+      class="usagi-preview"
+      src={preview.src}
+      width={preview.width}
+      height={preview.height}
+      alt="Usagi from Chiikawa, a cream rabbit with tall pink ears and a smiling face"
+      data-usagi-preview
+    />
+  </div>
+  <figcaption class="usagi-caption">
+    <button type="button" class="usagi-toggle" data-usagi-toggle aria-pressed="false">
+      View in 3D ↗
+    </button>
+    <span class="usagi-credit">
+      <a href="https://sketchfab.com/3d-models/usagi-chiikawa-4353fc3c1f664784bfd33608c6cff125" target="_blank" rel="noopener noreferrer">3D by znkim</a>
+      · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY</a>
+      <br />
+      <a href="https://www.meshy.ai/3d-models/Cute-Bunny-Character-v2-019474aa-1182-7537-82df-0ed77ca7b5eb" target="_blank" rel="noopener noreferrer">Preview by ChippyChappa</a>
+    </span>
+  </figcaption>
+</figure>
+
+<script>
+  const shell = document.querySelector<HTMLElement>("[data-usagi-viewer]");
+  const stage = shell?.querySelector<HTMLElement>("[data-usagi-stage]");
+  const preview = shell?.querySelector<HTMLImageElement>("[data-usagi-preview]");
+  const toggle = shell?.querySelector<HTMLButtonElement>("[data-usagi-toggle]");
+
+  toggle?.addEventListener("click", () => {
+    if (!stage || !preview) return;
+
+    const viewer = stage.querySelector("iframe");
+    if (viewer) {
+      viewer.remove();
+      preview.hidden = false;
+      toggle.textContent = "View in 3D ↗";
+      toggle.setAttribute("aria-pressed", "false");
+      return;
+    }
+
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://sketchfab.com/models/4353fc3c1f664784bfd33608c6cff125/embed?autostart=1&autospin=0&animation_autoplay=0&camera=0&dnt=1";
+    iframe.title = "Interactive 3D Usagi model by znkim";
+    iframe.allow = "fullscreen; xr-spatial-tracking";
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    stage.append(iframe);
+    preview.hidden = true;
+    toggle.textContent = "Close 3D";
+    toggle.setAttribute("aria-pressed", "true");
+  });
+</script>
+
+<style>
+  .usagi-shell {
+    width: 100%;
+    height: 360px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .usagi-stage {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+  }
+  .usagi-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .usagi-preview[hidden] { display: none; }
+  .usagi-stage :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 12px;
+    background: #e2ded7;
+  }
+  .usagi-caption {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    text-align: left;
+  }
+  .usagi-toggle {
+    padding: 0.46rem 0.65rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .usagi-toggle:hover,
+  .usagi-toggle:focus-visible {
+    background: var(--text);
+    color: white;
+  }
+  .usagi-credit {
+    color: var(--text-muted);
+    font-size: 0.63rem;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+  .usagi-credit a { color: inherit; }
+</style>
